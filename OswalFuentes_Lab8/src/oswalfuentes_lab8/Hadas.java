@@ -1,8 +1,11 @@
 package oswalfuentes_lab8;
 
+import java.io.Serializable;
 import javax.swing.JOptionPane;
 
-public class Hadas {
+public class Hadas implements Serializable {
+    
+    private static final long SerialVersionUID = 777L;
 
     protected String nombre;
     protected int altura, edad, poder;
