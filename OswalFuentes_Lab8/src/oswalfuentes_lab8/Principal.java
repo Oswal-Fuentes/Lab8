@@ -3,6 +3,7 @@ package oswalfuentes_lab8;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Principal extends javax.swing.JFrame {
 
@@ -69,6 +70,9 @@ public class Principal extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jt_listar = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -78,6 +82,12 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane1StateChanged(evt);
+            }
+        });
 
         jLabel1.setText("Nombre");
 
@@ -417,6 +427,46 @@ public class Principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Modificar", jPanel3);
 
+        jt_listar.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Altura", "Edad", "Salud ", "Poder"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jt_listar);
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Listar", jPanel8);
+
         jMenu1.setText("File");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
@@ -482,12 +532,18 @@ public class Principal extends javax.swing.JFrame {
         hadas.add(new Lamias(Integer.parseInt(tf_longitud_aleta.getText()), Integer.parseInt(tf_nbranquias.getText()),
                 tf_nombre.getText(), Integer.parseInt(tf_altura.getText()), Integer.parseInt(tf_edad.getText()),
                 57, 475));
+        JOptionPane.showMessageDialog(null, "Se agrego exitosamente");
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         adminHadas ap = new adminHadas();
-        ap.cargarArchivo();
-        hadas = ap.getListaHadas();
+        JFileChooser jfc = new JFileChooser();
+        int seleccion = jfc.showOpenDialog(this);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            ap.setArchivo(jfc.getSelectedFile());
+            ap.cargarArchivo();
+            hadas = ap.getListaHadas();
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -518,16 +574,40 @@ public class Principal extends javax.swing.JFrame {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         hadas.add(new Hamadriades(173, tf_nombre1.getText(), Integer.parseInt(tf_altura1.getText()),
                 Integer.parseInt(tf_edad1.getText()), 78, 373));
+        JOptionPane.showMessageDialog(null, "Se agrego exitosamente");
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         hadas.add(new Sílfides(Integer.parseInt(tf_cant_alas.getText()), tf_nombre2.getName(),
                 Integer.parseInt(tf_altura2.getText()), Integer.parseInt(tf_edad2.getText()), 67, 563));
+        JOptionPane.showMessageDialog(null, "Se agrego exitosamente");
     }//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
-        hadas.add(new Salamandras(Integer.parseInt(tf_cant_alas1.getText()), tf_nombre4.getText(), Integer.parseInt(tf_altura4.getText()), Integer.parseInt(tf_edad4.getText()), 71, 683));
+        hadas.add(new Salamandras(Integer.parseInt(tf_cant_alas1.getText()), tf_nombre4.getText(),
+                Integer.parseInt(tf_altura4.getText()), Integer.parseInt(tf_edad4.getText()), 71, 683));
+        JOptionPane.showMessageDialog(null, "Se agrego exitosamente");
     }//GEN-LAST:event_jButton5MouseClicked
+
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        jt_listar.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    "Nombre", "Altura", "Edad", "Salud", "Poder"
+                }
+        ));
+        DefaultTableModel modelo = (DefaultTableModel) jt_listar.getModel();
+        for (int i = 0; i < hadas.size(); i++) {
+            Object[] row = {
+                hadas.get(i).getNombre(),
+                hadas.get(i).getAltura(),
+                hadas.get(i).getEdad(),
+                hadas.get(i).getSalud(),
+                hadas.get(i).getPoder(),};
+            modelo.addRow(row);
+            jt_listar.setModel(modelo);
+        }
+    }//GEN-LAST:event_jTabbedPane1StateChanged
 
     /**
      * @param args the command line arguments
@@ -600,8 +680,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTable jt_listar;
     private javax.swing.JTextField tf_altura;
     private javax.swing.JTextField tf_altura1;
     private javax.swing.JTextField tf_altura2;
